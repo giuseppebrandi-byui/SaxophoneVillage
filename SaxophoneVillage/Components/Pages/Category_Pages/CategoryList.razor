@@ -1,5 +1,8 @@
 ﻿@page "/category"
 @inject ICategoryRepository _categoryRepository
+@inject IJSRuntime _JS
+
+<SaxophoneVillage.Components.Shared.BsModal OnModalConfirmation="ConfirmDelete_Click"></SaxophoneVillage.Components.Shared.BsModal>
 
 @if (IsProcessing)
 {
@@ -41,7 +44,9 @@ else
                               </td>
                               <td>
                                     <a href="@($"category/update/{obj.Id}")" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
-                                    <button class="btn btn-danger"><i class="bi bi-trash3"></i> Delete</button>
+                                    <button class="btn btn-danger" @onclick="()=>HandleDelete(obj.Id)">
+                                        <i class="bi bi-trash3"></i> Delete
+                                    </button>
                               </td>
                           </tr>  
                         }
@@ -55,7 +60,7 @@ else
 @code {
     private bool IsProcessing { get; set; } = true;
     private IEnumerable<Category> Categories { get; set; } = new List<Category>();
-
+    private int DeleteCategoryID { get; set; } = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -76,5 +81,29 @@ else
     {
         Categories = await _categoryRepository.GetAllAsync();
         // Load Categories;    
+    }
+
+    private void HandleDelete(int id)
+    {
+        // Delete Category 
+        DeleteCategoryID = id;
+        _JS.InvokeVoidAsync("ShowConfirmationModal");
+    }
+
+    private async Task ConfirmDelete_Click(bool isConfirmed)
+    {
+        IsProcessing = true;
+        await _JS.InvokeVoidAsync("HideConfirmationModal");
+        if (isConfirmed && DeleteCategoryID != 0)
+        {
+            var result = await _categoryRepository.DeleteAsync(DeleteCategoryID);
+            if(result)
+                _JS?.ToastrSuccess("Category Deleted Successfully");
+            else
+                _JS?.ToastrError("Error Encountered While Deleting");
+                await LoadCategories();
+        }
+        DeleteCategoryID = 0;
+        IsProcessing = false;
     }
 }
