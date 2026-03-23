@@ -14,7 +14,7 @@
 }
 else
 {
-    <div class="card shadow border-0 mt-4">
+    <div class="card shadow border-0 m-4">
         <div class="card-header bg-black bg-gradient m-lg-0 py-3">
             <div class="row">
                 <div class="col-12 text-center">
@@ -181,15 +181,17 @@ else
         if (Product.ImageUrl == null)
             return;
 
-            var fileToDelete = Product.ImageUrl.Split('/').Reverse().First();
+        var fileToDelete = Product.ImageUrl.Split('/').Reverse().First();
 
         var filePathToDeleteImage = Path.Combine(_directoryPath, fileToDelete);
 
         if (!File.Exists(filePathToDeleteImage))
+        {
+            Product.ImageUrl = null;
             return;
-
+        }
+        
             File.Delete(filePathToDeleteImage);
-
             Product.ImageUrl = null;
             return;
         
