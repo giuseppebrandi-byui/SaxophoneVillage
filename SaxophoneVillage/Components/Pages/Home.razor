@@ -1,7 +1,11 @@
 ﻿@page "/"
 @using System.Globalization
-@inject ICategoryRepository _categoryRepository
+@inject AuthenticationStateProvider _AuthenticationStateProvider
+@inject IJSRuntime _JS
+@inject NavigationManager _NavigationManager
 @inject IProductRepository _productRepository
+@inject ICategoryRepository _categoryRepository
+@inject IShoppingCartRepository _cartRepository
 
 <PageTitle>Home</PageTitle>
 @if (IsProcessing)
@@ -52,7 +56,7 @@ else
                                 <div class="col-6 px-3">
                                     @if (!string.IsNullOrEmpty(prod.SpecialTag))
                                     {
-                                        <i class="bi bi-star btn btn-outline-success disabled"> @prod.SpecialTag</i>
+                                        <i class="bi bi-star btn btn-outline-dark disabled"> @prod.SpecialTag</i>
                                     }
                                 </div>
                                 <div class="col-6 text-end text-danger px-3 h3">
@@ -62,19 +66,21 @@ else
                             <div class="text-center">
                                 @if (!string.IsNullOrEmpty(prod.ImageUrl))
                                 {
-                                    <img class="card-img-top img-thumbnail img-rounded w-50 mt-2" src="@prod.ImageUrl" style="">
+                                    <img class="card-img-top img-thumbnail w-50 mt-2" src="@prod.ImageUrl" style="">
                                 }
                                 else
                                 {
-                                    <img class="card-img-top img-thumbnail img-rounded w-50 mt-2" src="images/default.png" style="">
+                                    <img class="card-img-top img-thumbnail w-50 mt-2" src="images/default.png" style="">
                                 }
 
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title text-center lead text-success">@prod.Name</h5>
+                                <h5 class="card-title text-center lead">@prod.Name</h5>
                                 <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
                                 <h4 class="text-center">
-                                    <i class="bi bi-cart3 btn btn-success text-right  px-5 form-control"> Add to cart</i>
+                                    <div class="m-lg-auto p-2" @onclick="()=>AddOrderItem(prod)">
+                                        <i class="bi bi-cart3 btn btn-warning text-right  px-5 form-control"> Add to cart</i>
+                                    </div>
                                 </h4>
 
                             </div>
@@ -84,6 +90,24 @@ else
             </div>
         </div>
     </div>
+
+    <!-- Remove the container if you want to extend the Footer to full width. -->
+    <div class="mt-5">
+
+        <section class="">
+            <!-- Footer -->
+            <footer class="text-center text-white" style="background-color: #212529">
+                <!-- Copyright -->
+                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                    Copyright © 2026 by Sax Village, Inc. All rights reserved.
+                </div>
+                <!-- Copyright -->
+            </footer>
+            <!-- Footer -->
+        </section>
+
+    </div>
+    <!-- End of .container -->
 }
 
 @code {
@@ -144,5 +168,32 @@ else
     private string GetActiveTabClass(int categoryId)
     {
         return categoryId == _selectedCategoryId ? "active" : string.Empty;
+    }
+
+    private async Task AddOrderItem(Product product)
+    {
+        var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var authenticated = user.Identity is not null && user.Identity.IsAuthenticated;
+
+        // If user is not authenticated then redirect to login
+        if (!authenticated)
+        {
+            _NavigationManager.NavigateTo("account/login");
+        }
+        else
+        {
+            // Add item to cart
+            var result = await 
+            _cartRepository.UpdateCartAsync(user.FindFirst(u=>u.Type.Contains("nameidentifier"))?.Value, product.Id, 1);
+            if (result)
+            {
+                _JS?.ToastrSuccess("Product added to cart successfully");
+            }
+            else
+            {
+                _JS?.ToastrError("Error encountered");
+            }
+        }
     }
 }

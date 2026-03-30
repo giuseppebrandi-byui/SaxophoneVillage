@@ -124,6 +124,10 @@ h1:focus {
     border-radius: 50%;
 }
 
+.img-thumbnail {
+    border: none;
+}
+
 span.nav-link {
     color: #212529 !important;
 }
@@ -132,14 +136,21 @@ span.nav-link {
     color: #212529;
 }
 
-span.nav-link.active {
+/*span.nav-link.active {
     border-bottom: 3px solid #198754;
     color: #198754 !important;
-}
+}*/
 
+span.nav-link.active {
+    border-bottom: 3px solid rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+    color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+}
 
 
 .mark-up-string * {
     background: transparent !important;
 }
 
+.card {
+    --bs-card-spacer-x: 2rem;
+}

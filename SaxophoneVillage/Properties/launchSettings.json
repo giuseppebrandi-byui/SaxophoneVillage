@@ -7,7 +7,11 @@
         "launchBrowser": true,
         "applicationUrl": "http://localhost:5122",
         "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "DB_HOST": "dpg-d733j0q4d50c73fgkm8g-a.frankfurt-postgres.render.com",
+          "DB_NAME": "sax_db",
+          "DB_USER": "sax_admin_db",
+          "DB_PASSWORD": "6wdw6LkCP8O4KEU14ZQx9I3dw4y4sSWu"
         }
       },
       "https": {
@@ -16,7 +20,11 @@
         "launchBrowser": true,
         "applicationUrl": "https://localhost:7061;http://localhost:5122",
         "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "DB_HOST": "dpg-d733j0q4d50c73fgkm8g-a.frankfurt-postgres.render.com",
+          "DB_NAME": "sax_db",
+          "DB_USER": "sax_admin_db",
+          "DB_PASSWORD": "6wdw6LkCP8O4KEU14ZQx9I3dw4y4sSWu"
         }
       }
     }

@@ -103,7 +103,7 @@ else
     public int Id { get; set; }
 
     [SupplyParameterFromForm]
-    private Product Product { get; set; } = new Product();
+    private Product Product { get; set; } = new Product { Name = string.Empty };
 
     private IEnumerable<Category> _categories = new List<Category>();
 
@@ -113,6 +113,7 @@ else
 
     protected override Task OnInitializedAsync()
     {
+        Product.Name = "Error01: There has been a problem fetching the name";
         _directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "product");
         return base.OnInitializedAsync();
     }

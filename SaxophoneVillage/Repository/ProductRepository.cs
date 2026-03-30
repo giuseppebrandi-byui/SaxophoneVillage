@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using SaxophoneVillage.Data;
 using SaxophoneVillage.Repository.IRepository;
 
@@ -42,7 +43,7 @@ namespace SaxophoneVillage.Repository
             var obj = await _db.Product.FirstOrDefaultAsync(u => u.Id == id);
             if (obj == null)
             {
-                return new Product();
+                throw new KeyNotFoundException($"Error01: Product {id} not found");
             }
             return obj;
         }
