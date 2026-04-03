@@ -45,11 +45,11 @@
                     </div>
                     <div class="row">
                         <div class="col-6 pt-2">
-                            <a href="Account/ForgotPassword">Forgot your password?</a>
+                            <a href="/Account/ForgotPassword">Forgot your password?</a>
                         </div>
                        
                         <div class="col-6 pt-2 text-end">
-                            <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
+                            <a href="/Account/ResendEmailConfirmation">Resend email confirmation</a>
                         </div>
                     </div>
                 </EditForm>
@@ -61,7 +61,7 @@
                 <p class="text-center mt-2">
                     <small class="text-muted text-center">
                         Don't have an account yet?
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Sign Up</a>
+                        <a href="@(NavigationManager.GetUriWithQueryParameters("/Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Sign Up</a>
                     </small>
                 </p>
 
