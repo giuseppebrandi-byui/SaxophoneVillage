@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using SaxophoneVillage.Utility
 @using System.Security.Claims
+@using System.Globalization
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _navigationManager
 @attribute [Authorize]
@@ -55,7 +56,7 @@ else
                                     @obj.Email
                                 </td>
                                 <td>
-                                    @obj.OrderTotal.ToString("c")
+                                    @obj.OrderTotal.ToString("C", CultureInfo.GetCultureInfo("en-us"))
                                 </td>
                                 <td>
                                     @obj.OrderDate
