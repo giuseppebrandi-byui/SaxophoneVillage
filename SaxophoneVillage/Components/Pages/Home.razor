@@ -179,7 +179,7 @@ else
         // If user is not authenticated then redirect to login
         if (!authenticated)
         {
-            _NavigationManager.NavigateTo("account/login");
+            _NavigationManager.NavigateTo("/Account/Login", forceLoad:true);
         }
         else
         {
