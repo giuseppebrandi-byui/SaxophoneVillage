@@ -125,7 +125,7 @@ else
 
     protected override Task OnInitializedAsync()
     {
-        Product.Name = "Error01: There has been a problem fetching the name";
+        Product.Name = "Please add a valid name";
         _directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "product");
         return base.OnInitializedAsync();
     }
