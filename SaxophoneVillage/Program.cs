@@ -67,7 +67,7 @@ else
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 
 app.UseAntiforgery();
 
@@ -77,6 +77,7 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
 using (var scope = app.Services.CreateScope()) 
 { 
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
