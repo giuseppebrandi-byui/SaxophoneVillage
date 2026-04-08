@@ -126,7 +126,8 @@ else
     protected override Task OnInitializedAsync()
     {
         Product.Name = "Please add a valid name";
-        _directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "product");
+        var wwebroot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+        _directoryPath = Path.Combine(wwebroot, "images", "product");
         return base.OnInitializedAsync();
     }
 
